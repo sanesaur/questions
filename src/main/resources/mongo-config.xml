@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:context="http://www.springframework.org/schema/context"
+          xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+          xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd 
+          http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:property-placeholder location="classpath:/mongo.properties"/>
+
+    <mongo:mongo-client host="${host}" port="${port}">
+        <mongo:client-options 
+            connections-per-host="${connections-per-host}"
+            threads-allowed-to-block-for-connection-multiplier="${threads-allowed-to-block-for-connection-multiplier}"
+            connect-timeout="${connect-timeout}"
+            max-wait-time="${max-wait-time}"
+            socket-keep-alive="${socket-keep-alive}"
+            socket-timeout="${socket-timeout}"/>
+    </mongo:mongo-client>
+
+    <mongo:db-factory dbname="exam" mongo-ref="mongoClient"/>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    </bean>
+
+</beans>
