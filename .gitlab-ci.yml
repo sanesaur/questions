@@ -1,0 +1,21 @@
+#/bin/bash: line 88: ./mvnw: Permission denied
+#hence added before_script
+before_script:
+  - chmod +x mvnw
+
+#Error: JAVA_HOME is not defined correctly.
+maven-build:
+  image: maven:3-jdk-8
+  stage: build
+  script: ./mvnw -DskipTests  clean compile package 
+  artifacts:
+    paths:
+      - target/questions-0.0.1-SNAPSHOT.jar
+
+# docker-build:
+#   image: docker:latest
+#   stage: build
+#   script:
+#     - docker build -t registry.gitlab.com/sanesaur/qp_mcq .
+#     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+#     - docker push registry.gitlab.com/sanesaur/qp_mcq 
